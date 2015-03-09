@@ -1,0 +1,48 @@
+#
+# ~/.bashrc
+#
+
+streaming() {
+INRES="1440x900" # input resolution
+OUTRES="640x360" #output resolution, currently disabled
+FPS="15" # target FPS
+QUAL="fast"  # one of the many FFMPEG preset
+STREAM_KEY="$1" # use the terminal command Streaming streamkeyhere to stream your video to twitch or justin
+AXUM="keystreamhere"
+
+if [ "$STREAM_KEY" = "ase1590" ]; then
+	STREAM_KEY="$AXUM"
+fi
+
+URL="rtmp://live.justin.tv/app/$STREAM_KEY" #flashver=FMLE/3.0\20(compatible;\20FMSc/1.0)"  
+
+#ffmpeg -f x11grab -s "$INRES" -r "$FPS" -i :0.0 -ab 22050\
+# -f alsa -ac 2 -i pulse -vcodec libx264 -s "$OUTRES" -level 30 -f mpegts \
+# -acodec libmp3lame -ac 1  \
+# -f flv "$URL"
+
+
+
+
+ffmpeg -f x11grab -s "$INRES" -r "$FPS" -i :0.0 \
+    -f alsa -ac 2 -i pulse -vcodec libx264 -crf 30 -preset "$QUAL" -s "1280x720" \
+    -acodec libmp3lame -ab 96k -ar 44100 -threads 0 -pix_fmt yuv420p \
+    -f flv "$URL"
+}
+
+
+
+# If not running interactively, don't do anything
+[[ $- != *i* ]] && return
+
+
+PS1='\[\e[1;32m\][\u]\[\e[m\] \[\e[1;34m\]\w\[\e[m\] \[\e[1;32m\]\$\[\e[m\] \[\e[0;37m\]' #green display filepath
+#PS1='\[\e[1;32m\][\u@\h \W]\$\[\e[0m\] '  #green default
+#PS1='[\u@\h \W]\$ '  # Default
+#PS1='\e[1;32m[\u]\e[m \e[1;34m\w\e[m \e[1;32m$\e[m \e[0;37m' #ugly
+
+alias vi='vim'
+alias gputemp='sudo aticonfig --odgt'
+alias ls='ls --color=auto'
+alias sixaxis='sudo xboxdrv --silent --detach-kernel-driver'
+alias remove='sudo pacman -Rs'

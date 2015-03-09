@@ -1,0 +1,16 @@
+colorscheme slate
+syntax on
+set encoding=utf-8
+set background=dark
+set number
+set nowrap
+set shell=bash
+
+filetype plugin on
+
+set list
+set listchars=tab:»·,trail:·,eol:⬎
+set backspace=indent,eol
+set ts=3
+set ruler
+set autoindent
